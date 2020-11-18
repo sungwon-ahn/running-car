@@ -1,33 +1,37 @@
-import math
-import os
-import random
-import pygame
+import tensorflow as tf
+from tensorflow.keras.layers import Dense, Flatten, Conv2D
+from tensorflow.keras import Model
 
-from math import sin, radians, degrees, cos
-from pygame.math import *
+# import math
+# import os
+# import random
+# import pygame
 
-width = 1024
-height = 768
-SIZE = [width, height]
-MAX_BEAM_LEN = 100
+# from math import sin, radians, degrees, cos
+# from pygame.math import *
 
-BLACK = (0, 0, 0)
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-GREEN = (0, 255, 0)
-BLUE = (0, 0, 255)
-Yellow = (255, 255, 0)
+# width = 1024
+# height = 768
+# SIZE = [width, height]
+# MAX_BEAM_LEN = 100
 
-surface = pygame.display.set_mode((width, height))
+# BLACK = (0, 0, 0)
+# WHITE = (255, 255, 255)
+# RED = (255, 0, 0)
+# GREEN = (0, 255, 0)
+# BLUE = (0, 0, 255)
+# Yellow = (255, 255, 0)
 
-mask_surface = pygame.Surface((10, 10), pygame.SRCALPHA)
-mask_surface.fill((255, 0, 0))
+# surface = pygame.display.set_mode((width, height))
 
-mask = pygame.mask.from_surface(mask_surface)
-mask_fx = pygame.mask.from_surface(pygame.transform.flip(mask_surface, True, False))
-mask_fy = pygame.mask.from_surface(pygame.transform.flip(mask_surface, False, True))
-mask_fx_fy = pygame.mask.from_surface(pygame.transform.flip(mask_surface, True, True))
-flipped_masks = [[mask, mask_fy], [mask_fx, mask_fx_fy]]
+# mask_surface = pygame.Surface((10, 10), pygame.SRCALPHA)
+# mask_surface.fill((255, 0, 0))
+
+# mask = pygame.mask.from_surface(mask_surface)
+# mask_fx = pygame.mask.from_surface(pygame.transform.flip(mask_surface, True, False))
+# mask_fy = pygame.mask.from_surface(pygame.transform.flip(mask_surface, False, True))
+# mask_fx_fy = pygame.mask.from_surface(pygame.transform.flip(mask_surface, True, True))
+# flipped_masks = [[mask, mask_fy], [mask_fx, mask_fx_fy]]
 
 PPU = 64
 class Car:
@@ -207,5 +211,41 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game()
-    game.run()
+    
+    #game = Game()
+    #game.run()
+    dataset = tf.keras.models.Sequential(
+        
+        tf.keras.layers.Flatten(input_shape=(28, 28)),
+        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(10, activation='softmax')
+
+    )
+    #1 Tensor tutorial
+    # mnist = tf.keras.datasets.mnist
+
+    # (x_train, y_train), (x_test, y_test) = mnist.load_data()
+    # x_train, x_test = x_train / 255.0, x_test / 255.0
+    # model = tf.keras.models.Sequential([
+    #     tf.keras.layers.Flatten(input_shape=(28, 28)),
+    #     tf.keras.layers.Dense(128, activation='relu'),
+    #     tf.keras.layers.Dropout(0.2),
+    #     tf.keras.layers.Dense(10, activation='softmax')
+    # ])
+
+    # model.compile(optimizer='adam',
+    #             loss='sparse_categorical_crossentropy',
+    #             metrics=['accuracy'])
+    # model.fit(x_train, y_train, epochs=5)
+
+    # model.evaluate(x_test,  y_test, verbose=2)
+
+    tf.compat.v1.disable_eager_execution()
+    
+    hello = tf.constant("hello")
+    sess = tf.compat.v1.Session()
+    print(sess.run(hello))
+    a = tf.constant(10)
+    b = tf.constant(32)
+    print(sess.run(a+b))
